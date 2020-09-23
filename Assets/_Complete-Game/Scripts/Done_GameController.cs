@@ -13,18 +13,18 @@ public class Done_GameController : MonoBehaviour
     public float waveWait;
 
     public Text scoreText;
-    //public Text restartText;
+    public Text restartText;
     public Text gameOverText;
 
     private bool gameOver;
-    //private bool restart;
+    private bool restart;
     private int score;
 
     void Start()
     {
         gameOver = false;
-        //restart = false;
-        //restartText.text = "";
+        restart = false;
+        restartText.text = "";
         gameOverText.text = "";
         score = 0;
         UpdateScore();
@@ -33,13 +33,13 @@ public class Done_GameController : MonoBehaviour
 
     void Update()
     {
-       /* if (restart)
+        if (restart)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
-        }*/
+        }
     }
 
     IEnumerator SpawnWaves()
@@ -55,13 +55,12 @@ public class Done_GameController : MonoBehaviour
                 Instantiate(hazard, spawnPosition, spawnRotation);
                 yield return new WaitForSeconds(spawnWait);
             }
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(waveWait);
 
             if (gameOver)
             {
-               // restartText.text = "Reiniciando Juego";
-                // restart = true;
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                restartText.text = "Press 'R' for Restart";
+                restart = true;
                 break;
             }
         }
@@ -80,7 +79,7 @@ public class Done_GameController : MonoBehaviour
 
     public void GameOver()
     {
-        gameOverText.text = "Perdiste. Reiniciando Juego";
+        gameOverText.text = "Game Over!";
         gameOver = true;
     }
 }
