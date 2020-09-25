@@ -3,30 +3,25 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
 
-public class Done_GameController : MonoBehaviour
+public class GameController : MonoBehaviour
 {
     public GameObject[] hazards;
     public Vector3 spawnValues;
     public int hazardCount;
-    public float spawnWait;
-    public float startWait;
-    public float waveWait;
+    public float spawnWait,startWait,waveWait;
+    [Header("Text UI")]
+    public Text score,highScore,restart,gameOver;
 
-    public Text scoreText;
-    public Text restartText;
-    public Text gameOverText;
-
-    private bool gameOver;
-    private bool restart;
-    private int score;
-
-    void Start()
-    {
-        gameOver = false;
-        restart = false;
-        restartText.text = "";
-        gameOverText.text = "";
-        score = 0;
+    [SerializeField]private bool boolgameOver= false,boolrestart= false;
+    private int int_score;
+void Awake(){
+    highScore.text="High: "+(PlayerPrefs.GetInt("HighScore", int_score).ToString());
+}
+    void Start(){
+        restart.text = "";
+        //score.text="";
+        gameOver.text = "";
+        int_score = 0;
         UpdateScore();
         StartCoroutine(SpawnWaves());
     }
@@ -59,8 +54,13 @@ public class Done_GameController : MonoBehaviour
 
             if (gameOver)
             {
-                restartText.text = "Press 'B' Button for Restart";
-                restart = true;
+                if (int_score> PlayerPrefs.GetInt("HighScore", 0)){
+                PlayerPrefs.SetInt("HighScore", int_score);
+                highScore.text="High: "+(PlayerPrefs.GetInt("HighScore", int_score).ToString());
+            }
+                
+                restart.text = "Press 'B' Button for Restart";
+                boolrestart = true;
                 break;
             }
         }
@@ -68,18 +68,18 @@ public class Done_GameController : MonoBehaviour
 
     public void AddScore(int newScoreValue)
     {
-        score += newScoreValue;
+        int_score += newScoreValue;
         UpdateScore();
     }
 
     void UpdateScore()
     {
-        scoreText.text = "Score: " + score;
+        score.text = "Score: " + int_score;
     }
 
-    public void GameOver()
-    {
-        gameOverText.text = "Game Over!";
-        gameOver = true;
+    public void GameOver(){
+        
+        gameOver.text = "Game Over!";
+        boolgameOver = true;
     }
 }
