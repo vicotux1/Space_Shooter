@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     public GameObject[] hazards;
-    public Vector3 spawnValues;
+    public Vector2 spawnValues;
     public int hazardCount;
     public float spawnWait,startWait,waveWait;
     [Header("Text UI")]
@@ -19,7 +19,6 @@ void Awake(){
 }
     void Start(){
         restart.text = "";
-        //score.text="";
         gameOver.text = "";
         int_score = 0;
         UpdateScore();
@@ -44,10 +43,11 @@ void Awake(){
         {
             for (int i = 0; i < hazardCount; i++)
             {
-                GameObject hazard = hazards[Random.Range(0, hazards.Length)];
-                Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-                Quaternion spawnRotation = Quaternion.identity;
-                Instantiate(hazard, spawnPosition, spawnRotation);
+                GameObject hazard = hazards[Random.Range(0,hazards.Length)];
+                Vector3 spawnPosition = new Vector3(Random.Range
+                (-spawnValues.x, spawnValues.x),17, spawnValues.y);
+                //Quaternion spawnRotation = Quaternion.identity;
+                Instantiate(hazard, spawnPosition, hazard.transform.rotation);
                 yield return new WaitForSeconds(spawnWait);
             }
             yield return new WaitForSeconds(waveWait);
@@ -56,7 +56,8 @@ void Awake(){
             {
                 if (int_score> PlayerPrefs.GetInt("HighScore", 0)){
                 PlayerPrefs.SetInt("HighScore", int_score);
-                highScore.text="High: "+(PlayerPrefs.GetInt("HighScore", int_score).ToString());
+                highScore.text="High: "+(PlayerPrefs.GetInt
+                ("HighScore", int_score).ToString());
             }
                 
                 restart.text = "Press 'B' Button for Restart";

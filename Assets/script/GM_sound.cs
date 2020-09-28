@@ -31,5 +31,10 @@ public class GM_sound : MonoBehaviour{
    public void antiAliasing_Quality (int Level){
 	QualitySettings.antiAliasing = Level;
 	Debug.Log("antiAliasing level "+Level);
-	}   
+	}  
+	public void fullScreen(bool Fullscreen){
+	Screen.fullScreen = Fullscreen; 
+	}
 }
+
+
